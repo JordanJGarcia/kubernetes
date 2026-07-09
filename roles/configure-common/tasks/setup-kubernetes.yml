@@ -1,0 +1,47 @@
+---
+- name: Import variables
+  ansible.builtin.include_vars:
+    file: "{{ role_path }}/vars/kubernetes.yml"
+
+- name: Install {{ prepackages }}
+  ansible.builtin.apt:
+    pkg: "{{ prepackages }}"
+    state: present
+    update_cache: true
+
+- name: Ensure {{ keyringdir }} exists
+  ansible.builtin.file:
+    path: "{{ keyringdir }}"
+    state: "directory"
+    mode: "0755"
+
+- name: Download {{ repo }} official GPG key
+  ansible.builtin.shell: "curl -fsSL {{ keyringurl }} | sudo gpg --dearmor -o {{ keyring }}"
+
+- name: Add {{ repo }} apt source
+  ansible.builtin.template:
+    src: "{{ repo }}.list.j2"
+    dest: "/etc/apt/sources.list.d/{{ repo }}.list"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+
+- name: Install {{ packages }}
+  ansible.builtin.apt:
+    pkg: "{{ packages }}"
+    state: "latest"
+    update_cache: true
+
+- name: Configure --node-ip flag for kubelet
+  lineinfile:
+    path: "/etc/default/kubelet"
+    line: KUBELET_EXTRA_ARGS=--node-ip={{ hostvars[inventory_hostname]['ansible_host'] }}
+    create: true
+
+- name: Restart kubelet systemd service
+  ansible.builtin.systemd_service:
+    name: "kubelet"
+    state: "restarted"
+    daemon_reload: true
+    enabled: true
+...

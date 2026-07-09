@@ -1,0 +1,10 @@
+---
+- name: Ping test
+  hosts: "compute*"
+  become: true
+  gather_facts: false
+
+  roles:
+    - roles/configure-common
+    - roles/configure-compute
+...

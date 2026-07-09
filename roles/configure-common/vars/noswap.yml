@@ -1,0 +1,4 @@
+---
+# noswap vars
+service: "noswap"
+file: "{{ service }}.service"

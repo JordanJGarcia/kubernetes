@@ -1,0 +1,20 @@
+---
+- name: Import variables
+  ansible.builtin.include_vars:
+    file: "{{ role_path }}/vars/noswap.yml"
+
+- name: Copy systemd service file for "{{ service }}"
+  ansible.builtin.copy:
+    src: "{{ file }}"
+    dest: "/etc/systemd/system/{{ file }}"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+
+- name: Enable and start {{ service }} service
+  ansible.builtin.systemd_service:
+    name: "{{ service }}"
+    state: "restarted"
+    daemon_reload: true
+    enabled: true
+...

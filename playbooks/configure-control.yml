@@ -1,0 +1,10 @@
+---
+- name: Configure control nodes
+  hosts: "control*"
+  become: true
+  gather_facts: false
+
+  roles:
+    - roles/configure-common
+    - roles/configure-control
+...

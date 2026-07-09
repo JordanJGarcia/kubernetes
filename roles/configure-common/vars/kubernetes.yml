@@ -1,0 +1,22 @@
+---
+# kubernetes vars
+
+kubeconfig: "/etc/kubernetes/admin.conf"
+
+repo: "kubernetes"
+repourl: "https://pkgs.k8s.io/core:/stable:/v1.36/deb/"
+
+keyringdir: "/etc/apt/keyring/"
+keyringurl: "{{ repourl }}Release.key"
+keyring: "{{ keyringdir }}/kubernetes-apt-keyring.gpg"
+
+prepackages:
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - gpg
+
+packages:
+  - kubelet
+  - kubeadm
+  - kubectl

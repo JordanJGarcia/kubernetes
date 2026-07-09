@@ -1,0 +1,39 @@
+---
+- name: Import variables
+  ansible.builtin.include_vars:
+    file: "{{ role_path }}/vars/cilium.yml"
+
+- name: Install {{ packages }}
+  ansible.builtin.apt:
+    pkg: "{{ packages }}"
+    state: present
+    update_cache: true
+
+- name: Remove kube-proxy DaemonSet
+  kubernetes.core.k8s:
+    state: "absent"
+    kind: "DaemonSet"
+    name: "kube-proxy"
+    namespace: "{{ namespace }}"
+
+- name: Remove kube-proxy ConfigMap
+  kubernetes.core.k8s:
+    state: "absent"
+    kind: "ConfigMap"
+    name: "kube-proxy"
+    namespace: "{{ namespace }}"
+
+- name: Copy cilium cli installation file over
+  ansible.builtin.copy:
+    src: "{{ installcli }}"
+    dest: "/root/{{ installcli }}"
+    mode: "0755"
+    owner: "root"
+    group: "root"
+
+- name: Install Cilium CLI
+  shell: "/root/{{ installcli }}"
+
+- name: Install Cilium
+  command: cilium install --version "{{ version }}" --set kubeProxyReplacement=true
+...

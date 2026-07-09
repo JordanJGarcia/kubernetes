@@ -1,0 +1,40 @@
+---
+- name: Import variables
+  ansible.builtin.include_vars:
+    file: "{{ role_path }}/vars/containerd.yml"
+
+- name: Install {{ runtime }}
+  ansible.builtin.apt:
+    name: "{{ runtime }}"
+    state: "latest"
+    update_cache: true
+
+- name: Ensure {{ confdir }} exists
+  ansible.builtin.file:
+    path: "{{ confdir }}"
+    state: directory
+    mode: "0755"
+
+- name: Copy {{ conffile }} to node
+  ansible.builtin.copy:
+    src: "{{ conffile }}"
+    dest: "{{ confdir }}/{{ conffile }}"
+    mode: "0755"
+    owner: root
+    group: root
+
+- name: Enable IPv4 kernel forwarding for Kubernetes routing
+  ansible.posix.sysctl:
+    name: net.ipv4.ip_forward
+    value: "1"
+    sysctl_set: true
+    state: present
+    reload: true
+
+- name: Restart containderd
+  ansible.builtin.systemd_service:
+    name: "{{ runtime }}"
+    state: "restarted"
+    daemon_reload: true
+    enabled: true
+...

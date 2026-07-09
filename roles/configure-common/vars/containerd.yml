@@ -1,0 +1,5 @@
+---
+# containerd vars
+runtime: "containerd"
+confdir: "/etc/containerd/"
+conffile: "config.toml"

@@ -1,0 +1,10 @@
+---
+- name: Set up noswap service
+  ansible.builtin.include_tasks: setup-noswap.yml
+
+- name: Set up containerd
+  ansible.builtin.include_tasks: setup-containerd.yml
+
+- name: Set up kubernetes
+  ansible.builtin.include_tasks: setup-kubernetes.yml
+...

@@ -1,0 +1,11 @@
+---
+# cilium vars
+
+packages:
+  - python3-kubernetes
+
+version: "1.19.5"
+namespace: "kube-system"
+installcli: "install-cilium.sh"
+
+kubeconfig: "/etc/kubernetes/admin.conf"

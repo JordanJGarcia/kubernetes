@@ -58,7 +58,7 @@ vagrant destroy -f
 
 [Install kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-kubectl-binary-with-curl-on-linux)
 
-[Enable auto-completion](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#enable-shell-autocompletion)
+[Enable auto-completion](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#bash)
 
 [kubeadm docs](https://kubernetes.io/docs/reference/setup-tools/kubeadm/)
 

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-with-pvc
+  namespace: examples
+spec:
+  containers:
+  - image: nginx
+    name: nginx-with-pvc
+    volumeMounts:
+    - mountPath: "/var/www/html"
+      name: mypersistentvolume
+  volumes:
+  - name: mypersistentvolume
+    persistentVolumeClaim:
+      claimName: my-hostpath-pvc

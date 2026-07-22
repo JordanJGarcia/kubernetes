@@ -1,0 +1,9 @@
+wordpressUsername: wpadmin
+wordpressPassword: wppassword
+wordpressEmail: admin@example.com
+wordpressFirstName: WP
+wordpressLastName: Admin
+service:
+  type: NodePort
+volumePermissions:
+  enabled: true

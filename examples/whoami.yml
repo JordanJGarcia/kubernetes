@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodeport-whoami
+spec:
+  type: NodePort
+  selector:
+    app: whoami
+  ports:
+    - nodePort: 30001
+      port: 80
+      targetPort: 80
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: whoami1
+  namespace: examples
+  labels:
+    app: whoami
+spec:
+  containers:
+    - name: whoami1
+      image: containous/whoami
+      ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: whoami2
+  namespace: examples
+  labels:
+    app: whoami
+spec:
+  containers:
+    - name: whoami2
+      image: containous/whoami
+      ports:
+        - containerPort: 80

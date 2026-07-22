@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: my-hostpath-pvc
+  namespace: examples
+spec:
+  resources:
+    requests:
+      storage: 1Gi
+  accessModes:
+  - ReadWriteOnce
+  selector:
+    matchLabels:
+      type: hostpath
+      env: development
+  storageClassName: slow

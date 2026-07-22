@@ -12,7 +12,7 @@ NUM_COMPUTES=2
 
 # hardware
 CPUS=4
-MEMORY=4096
+MEMORY=8192
 DISK="20GB"
 
 Vagrant.configure("2") do |config|
